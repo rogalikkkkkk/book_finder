@@ -1,5 +1,6 @@
 import 'package:book_finder/screens/homescreen.dart';
 import 'package:book_finder/screens/login_screen.dart';
+import 'package:book_finder/screens/profile.dart';
 import 'firebase_options.dart';
 import 'package:book_finder/screens/signup_screen.dart';
 import 'package:book_finder/services/firebase_stream.dart';
@@ -14,8 +15,22 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String thisRoute = '/home';
+
+  void goToRoute(String route) {
+    setState(() {
+      thisRoute = route;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +39,25 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      // home:  Navigator(
+      //   pages: [
+      //      MaterialPage(child: HomeScreen()),
+      //     if(thisRoute == '/profile')
+      //      MaterialPage(child: ProfileScreen())
+      //   ],
+      //   onPopPage: (route, result) {
+      //     if (!route.didPop(result)) {
+      //       return false;
+      //     }
+      //     return true;
+      //   },
+      // ),
       routes: {
         '/': (context) => const FirebaseStream(),
         '/home': (context) => const HomeScreen(),
         '/signup': (context) => const SignUpScreen(),
         '/login': (context) => const LoginScreen(),
+        '/profile': (context) => const ProfileScreen()
       },
       initialRoute: '/',
     );
