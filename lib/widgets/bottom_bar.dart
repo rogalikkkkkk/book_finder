@@ -22,6 +22,7 @@ class _BottomBarState extends State<BottomBar> {
     setState(() {
       _selectedPageIndex = index;
     });
+    Navigator.of(context).pushNamedAndRemoveUntil(routeString[routeNumber.keys.elementAt(index)]!, (route) => false);
   }
 
   @override

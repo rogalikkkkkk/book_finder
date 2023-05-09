@@ -1,4 +1,5 @@
 import 'package:book_finder/screens/homescreen.dart';
+import 'package:book_finder/screens/library_screen.dart';
 import 'package:book_finder/screens/login_screen.dart';
 import 'package:book_finder/screens/profile.dart';
 import 'firebase_options.dart';
@@ -57,7 +58,8 @@ class _MyAppState extends State<MyApp> {
         '/home': (context) => const HomeScreen(),
         '/signup': (context) => const SignUpScreen(),
         '/login': (context) => const LoginScreen(),
-        '/profile': (context) => const ProfileScreen()
+        '/profile': (context) => const ProfileScreen(),
+        '/library': (context) => const LibraryScreen(),
       },
       initialRoute: '/',
     );

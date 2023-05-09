@@ -11,3 +11,5 @@ const Map <Routes, String> routeString = {
   Routes.profile: '/profile',
   Routes.library: '/library',
 };
+
+const String netPicture = 'https://anylang.net/sites/default/files/covers/1984.jpg';
