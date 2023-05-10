@@ -5,7 +5,13 @@ class BookCard extends StatelessWidget {
   final int? score;
   final DateTime? readTime;
 
-  const BookCard({this.score, this.readTime, Key? key}) : super(key: key);
+  final String? name;
+  final String? author;
+  final String? url;
+
+  const BookCard(
+      {this.score, this.readTime, this.name, this.author, this.url, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +38,9 @@ class BookCard extends StatelessWidget {
                     Expanded(
                       child: Column(
                         children: [
-                          const Text(
-                              "Name of the bookName of the bookName of the bookName of the bookName of the bookName of the bookName of the book"),
+                          Text((name == null)
+                              ? name!
+                              : "Name of the bookName of the bookName of the bookName of the bookName of the bookName of the bookName of the book"),
                           const SizedBox(
                             height: 15.0,
                           ),
@@ -77,7 +84,8 @@ class BookCard extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+                              padding:
+                                  const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                               child: TextButton(
                                 onPressed: () => {},
                                 style: TextButton.styleFrom(
@@ -91,7 +99,8 @@ class BookCard extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
-                              child: Text('You read this book at ${readTime!.day} ${readTime!.month} ${readTime!.year}'),
+                              child: Text(
+                                  'You read this book at ${readTime!.day} ${readTime!.month} ${readTime!.year}'),
                             ),
                           ),
                         ],

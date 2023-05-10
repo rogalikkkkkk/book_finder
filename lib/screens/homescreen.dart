@@ -1,8 +1,10 @@
+import 'package:book_finder/services/firestore.dart';
 import 'package:book_finder/widgets/book_card.dart';
 import 'package:book_finder/widgets/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../variables/book.dart';
 import '../variables/routes.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,6 +16,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final user = FirebaseAuth.instance.currentUser;
+
+  List<Widget> cards = List.empty();
+
+  Future<void> loadRecomendations() async {
+    List<Book> list = await Firestore.getBooksCollection('books');
+    cards = list.map((e) => BookCard()).toList();
+  }
 
   Future<void> signOut() async {
     final navigator = Navigator.of(context);
@@ -59,22 +68,14 @@ class _HomeScreenState extends State<HomeScreen> {
               //   ),
               // ),
               TextButton(
-                onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                    routeString[Routes.profile]!,
-                    (Route<dynamic> route) => false),
+                onPressed: () => Firestore.getBooksCollection("books"),
                 child: const Text("Go to profile"),
               ),
               Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Column(
-                    children: const [
-                      BookCard(),
-                      BookCard(),
-                      BookCard(),
-                      BookCard(),
-                      BookCard(),
-                    ],
+                    children: cards,
                   ),
                 ),
               ),
