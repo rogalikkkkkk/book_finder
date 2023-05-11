@@ -30,22 +30,24 @@ class BookCard extends StatelessWidget {
                       child: SizedBox(
                         height: 150.0,
                         child: Image.network(
-                          netPicture,
-                          scale: 3.5,
+                          (url != null) ? url! : netPicture,
+                          // scale: 3.5,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
                     Expanded(
                       child: Column(
                         children: [
-                          Text((name == null)
+                          Text((name != null)
                               ? name!
                               : "Name of the bookName of the bookName of the bookName of the bookName of the bookName of the bookName of the book"),
                           const SizedBox(
                             height: 15.0,
                           ),
-                          const Text(
-                              "Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author "),
+                          Text((author != null)
+                              ? author!
+                              : "Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author "),
                           const SizedBox(
                             height: 15.0,
                           ),
