@@ -72,7 +72,7 @@ class CardsList extends StatelessWidget {
       future: Firestore.getBooksCollection('books'),
       builder: (context, AsyncSnapshot snapshot) {
         Widget childer;
-        if (!snapshot.hasData) {
+        if (snapshot.hasData) {
           childer = SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
