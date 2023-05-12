@@ -31,7 +31,6 @@ class BookCard extends StatelessWidget {
                         height: 150.0,
                         child: Image.network(
                           (url != null) ? url! : netPicture,
-                          // scale: 3.5,
                           fit: BoxFit.contain,
                         ),
                       ),

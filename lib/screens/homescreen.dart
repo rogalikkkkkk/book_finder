@@ -4,8 +4,6 @@ import 'package:book_finder/widgets/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
-import '../variables/book.dart';
 import '../variables/routes.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -68,7 +66,7 @@ class CardsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Book>>(
+    return FutureBuilder(
       future: Firestore.getBooksCollection('books'),
       builder: (context, AsyncSnapshot snapshot) {
         Widget childer;
@@ -80,6 +78,7 @@ class CardsList extends StatelessWidget {
                   .map<Widget>((item) => BookCard(
                         author: item.author,
                         name: item.name,
+                        // url: item.url,
                       ))
                   //TODO: разобраться с картинками, кидает 403
                   .toList(),
@@ -93,7 +92,9 @@ class CardsList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 Text('Loading data'),
-                SizedBox(height: 40.0,),
+                SizedBox(
+                  height: 40.0,
+                ),
                 SizedBox(
                   width: 200.0,
                   height: 200.0,
