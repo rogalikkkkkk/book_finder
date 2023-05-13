@@ -16,8 +16,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final user = FirebaseAuth.instance.currentUser;
 
-  List<Widget> cards = List.empty();
-
   Future<void> signOut() async {
     final navigator = Navigator.of(context);
 
@@ -46,12 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextButton(
-                onPressed: () => Firestore.getBooksCollection("books"),
+                onPressed: () => Firestore.getUserRatings('asd'),
                 child: const Text("Go to profile"),
               ),
-              const Expanded(
-                child: CardsList(),
-              ),
+              // const Expanded(
+              //   child: CardsList(),
+              // ),
             ],
           ),
         ),
