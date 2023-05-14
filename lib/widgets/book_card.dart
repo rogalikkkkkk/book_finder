@@ -38,15 +38,18 @@ class BookCard extends StatelessWidget {
                     Expanded(
                       child: Column(
                         children: [
-                          Text((name != null)
-                              ? name!
-                              : "Name of the bookName of the bookName of the bookName of the bookName of the bookName of the bookName of the book"),
+                          Text(
+                              (name != null)
+                                  ? name!
+                                  : "Name of the book",
+                              textAlign: TextAlign.center),
                           const SizedBox(
                             height: 15.0,
                           ),
-                          Text((author != null)
-                              ? author!
-                              : "Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author Books author "),
+                          Text(
+                            (author != null) ? author! : "Books author",
+                            textAlign: TextAlign.center,
+                          ),
                           const SizedBox(
                             height: 15.0,
                           ),
@@ -97,13 +100,13 @@ class BookCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text(
-                                  'You read this book at ${readTime!.day} ${readTime!.month} ${readTime!.year}'),
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(8.0),
+                          //   child: Center(
+                          //     child: Text(
+                          //         'You read this book at ${readTime!.day} ${readTime!.month} ${readTime!.year}'),
+                          //   ),
+                          // ),
                         ],
                       )
                     : const SizedBox.shrink()

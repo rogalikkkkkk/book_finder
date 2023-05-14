@@ -1,3 +1,4 @@
+import 'package:book_finder/services/firestore.dart';
 import 'package:book_finder/variables/routes.dart';
 import 'package:book_finder/widgets/book_card.dart';
 import 'package:book_finder/widgets/bottom_bar.dart';
@@ -13,6 +14,8 @@ class LibraryScreen extends StatefulWidget {
 
 class _LibraryScreenState extends State<LibraryScreen> {
 
+  final user = FirebaseAuth.instance.currentUser!.uid;
+
   Future<void> signOut() async {
     final navigator = Navigator.of(context);
 
@@ -21,7 +24,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
     navigator.pushNamedAndRemoveUntil(
         '/login', (Route<dynamic> route) => false);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,39 +43,75 @@ class _LibraryScreenState extends State<LibraryScreen> {
           child: Column(
             children: [
               Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      BookCard(
-                        score: 7,
-                        readTime: DateTime.parse('1969-07-20 20:18:04Z'),
-                      ),
-                      BookCard(
-                        score: 8,
-                        readTime: DateTime.parse('1969-07-20 20:18:04Z'),
-                      ),
-                      BookCard(
-                        score: 5,
-                        readTime: DateTime.parse('1969-07-20 20:18:04Z'),
-                      ),
-                      BookCard(
-                        score: 1,
-                        readTime: DateTime.parse('1969-07-20 20:18:04Z'),
-                      ),
-                      BookCard(
-                        score: 2,
-                        readTime: DateTime.parse('1969-07-20 20:18:04Z'),
-                      ),
-                    ],
-                  ),
-                ),
+                child: UserBooksCards(user: user),
               ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: const BottomBar(Routes.library),
+    );
+  }
+}
+
+class UserBooksCards extends StatelessWidget {
+  final String user;
+  const UserBooksCards({
+    required this.user,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Firestore.getUserRatings(user),
+      builder: (context, AsyncSnapshot snapshot) {
+        Widget child;
+        if (snapshot.hasData) {
+          child = SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: snapshot.data
+                  .map<Widget>((item) => BookCard(
+                        author: item.author,
+                        name: item.name,
+                        score: item.rating,
+                        // url: item.url,
+                      ))
+                  //TODO: разобраться с картинками, кидает 403
+                  .toList(),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          child = Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('Error occured...'),
+              ],
+            ),
+          );
+        } else {
+          child = Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('Loading data'),
+                SizedBox(
+                  height: 40.0,
+                ),
+                SizedBox(
+                  width: 200.0,
+                  height: 200.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return child;
+      },
     );
   }
 }

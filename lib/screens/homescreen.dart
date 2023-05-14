@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextButton(
-                onPressed: () => Firestore.getUserRatings('asd'),
+                onPressed: () => Firestore.getAllBooks(),
                 child: const Text("Go to profile"),
               ),
               // const Expanded(
@@ -65,7 +65,7 @@ class CardsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firestore.getBooksCollection('books'),
+      future: Firestore.getAllBooks(),
       builder: (context, AsyncSnapshot snapshot) {
         Widget childer;
         if (snapshot.hasData) {
@@ -83,7 +83,14 @@ class CardsList extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          return const Text('Error...');
+          childer = Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('Error occured...'),
+              ],
+            ),
+          );
         } else {
           childer = Center(
             child: Column(

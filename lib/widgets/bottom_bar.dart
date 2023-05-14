@@ -34,8 +34,8 @@ class _BottomBarState extends State<BottomBar> {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle),
-          label: 'Profile',
+          icon: Icon(Icons.search),
+          label: 'Find book',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.book),
