@@ -44,12 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextButton(
-                onPressed: () => Firestore.getAllBooks(),
+                onPressed: () => Firestore.loadSimList(
+                    FirebaseAuth.instance.currentUser!.uid),
                 child: const Text("Go to profile"),
               ),
-              // const Expanded(
-              //   child: CardsList(),
-              // ),
+              const Expanded(
+                child: CardsList(),
+              ),
             ],
           ),
         ),
@@ -65,7 +66,7 @@ class CardsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firestore.getAllBooks(),
+      future: Firestore.loadSimList(FirebaseAuth.instance.currentUser!.uid),
       builder: (context, AsyncSnapshot snapshot) {
         Widget childer;
         if (snapshot.hasData) {
@@ -76,6 +77,7 @@ class CardsList extends StatelessWidget {
                   .map<Widget>((item) => BookCard(
                         author: item.author,
                         name: item.name,
+                        isbn: item.isbn,
                         // url: item.url,
                       ))
                   //TODO: разобраться с картинками, кидает 403

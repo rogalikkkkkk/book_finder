@@ -71,10 +71,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         keyboardType: TextInputType.text,
                         controller: userText,
                         autocorrect: false,
-                        validator: (text) =>
-                        text != null && text.length < 3
-                        ? 'Минимум 3 символа'
-                        : null,
+                        validator: (text) => text != null && text.length < 3
+                            ? 'Минимум 3 символа'
+                            : null,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Введите название или автора'),
@@ -96,6 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         .map<BookCard>((book) => BookCard(
                               author: book.author,
                               name: book.name,
+                              isbn: book.isbn,
                             ))
                         .toList(),
                   ),

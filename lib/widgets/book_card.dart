@@ -1,17 +1,44 @@
 import 'package:book_finder/variables/routes.dart';
+import 'package:book_finder/widgets/score_dialog.dart';
 import 'package:flutter/material.dart';
 
-class BookCard extends StatelessWidget {
+class BookCard extends StatefulWidget {
   final int? score;
   final DateTime? readTime;
 
   final String? name;
   final String? author;
   final String? url;
+  final String isbn;
 
   const BookCard(
-      {this.score, this.readTime, this.name, this.author, this.url, Key? key})
+      {this.score,
+      this.readTime,
+      this.name,
+      this.author,
+      this.url,
+      Key? key,
+      required this.isbn})
       : super(key: key);
+
+  @override
+  State<BookCard> createState() => _BookCardState();
+}
+
+class _BookCardState extends State<BookCard> {
+  int? userScore;
+
+  void callBack(int? newScore) {
+    setState(() {
+      userScore = newScore;
+    });
+  }
+
+  @override
+  void initState() {
+    userScore = widget.score;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +57,7 @@ class BookCard extends StatelessWidget {
                       child: SizedBox(
                         height: 150.0,
                         child: Image.network(
-                          (url != null) ? url! : netPicture,
+                          (widget.url != null) ? widget.url! : netPicture,
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -39,27 +66,37 @@ class BookCard extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                              (name != null)
-                                  ? name!
+                              (widget.name != null)
+                                  ? widget.name!
                                   : "Name of the book",
                               textAlign: TextAlign.center),
                           const SizedBox(
                             height: 15.0,
                           ),
                           Text(
-                            (author != null) ? author! : "Books author",
+                            (widget.author != null)
+                                ? widget.author!
+                                : "Books author",
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(
                             height: 15.0,
                           ),
-                          score == null
+                          userScore == null
                               ? TextButton(
                                   style: TextButton.styleFrom(
                                     backgroundColor: Colors.blue,
                                     foregroundColor: Colors.white,
                                   ),
-                                  onPressed: () => {},
+                                  onPressed: () => showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        ScoreDialog(
+                                      score: userScore,
+                                      isbn: widget.isbn,
+                                      callBack: callBack,
+                                    ),
+                                  ),
                                   child: const Text('Already read'),
                                 )
                               : Center(
@@ -71,7 +108,7 @@ class BookCard extends StatelessWidget {
                                         width: 15.0,
                                       ),
                                       Text(
-                                        score.toString(),
+                                        userScore.toString(),
                                         style: const TextStyle(fontSize: 30.0),
                                       ),
                                     ],
@@ -82,7 +119,7 @@ class BookCard extends StatelessWidget {
                     )
                   ],
                 ),
-                score != null
+                userScore != null
                     ? Column(
                         children: [
                           SizedBox(
@@ -91,7 +128,15 @@ class BookCard extends StatelessWidget {
                               padding:
                                   const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                               child: TextButton(
-                                onPressed: () => {},
+                                onPressed: () => showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      ScoreDialog(
+                                    score: userScore,
+                                    isbn: widget.isbn,
+                                    callBack: callBack,
+                                  ),
+                                ),
                                 style: TextButton.styleFrom(
                                   backgroundColor: Colors.blue,
                                   foregroundColor: Colors.white,
@@ -100,13 +145,6 @@ class BookCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(8.0),
-                          //   child: Center(
-                          //     child: Text(
-                          //         'You read this book at ${readTime!.day} ${readTime!.month} ${readTime!.year}'),
-                          //   ),
-                          // ),
                         ],
                       )
                     : const SizedBox.shrink()
