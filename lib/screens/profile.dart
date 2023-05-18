@@ -1,4 +1,4 @@
-import 'package:book_finder/variables/book.dart';
+import 'package:book_finder/classes/book.dart';
 import 'package:book_finder/variables/routes.dart';
 import 'package:book_finder/widgets/book_card.dart';
 import 'package:book_finder/widgets/bottom_bar.dart';

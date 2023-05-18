@@ -24,13 +24,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String thisRoute = '/home';
-
-  void goToRoute(String route) {
-    setState(() {
-      thisRoute = route;
-    });
-  }
 
 
   @override
@@ -40,19 +33,6 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home:  Navigator(
-      //   pages: [
-      //      MaterialPage(child: HomeScreen()),
-      //     if(thisRoute == '/profile')
-      //      MaterialPage(child: ProfileScreen())
-      //   ],
-      //   onPopPage: (route, result) {
-      //     if (!route.didPop(result)) {
-      //       return false;
-      //     }
-      //     return true;
-      //   },
-      // ),
       routes: {
         '/': (context) => const FirebaseStream(),
         '/home': (context) => const HomeScreen(),

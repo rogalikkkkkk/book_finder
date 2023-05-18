@@ -63,8 +63,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: passwordTextInputController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
-      print(e.code);
-
       if (e.code == 'email-already-in-use') {
         SnackBarService.showSnackBar(
           context,
