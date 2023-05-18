@@ -42,13 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextButton(
-                onPressed: () => Firestore.loadSimList(
-                    FirebaseAuth.instance.currentUser!.uid),
-                child: const Text("Go to profile"),
-              ),
-              const Expanded(
+            children: const <Widget>[
+              Expanded(
                 child: CardsList(),
               ),
             ],
@@ -70,20 +65,24 @@ class CardsList extends StatelessWidget {
       builder: (context, AsyncSnapshot snapshot) {
         Widget childer;
         if (snapshot.hasData) {
-          childer = SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: snapshot.data
-                  .map<Widget>((item) => BookCard(
-                        author: item.author,
-                        name: item.name,
-                        isbn: item.isbn,
-                        // url: item.url,
-                      ))
-                  //TODO: разобраться с картинками, кидает 403
-                  .toList(),
-            ),
-          );
+          childer = (snapshot.data.toString().replaceAll('[]', '').isNotEmpty)
+              ? SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: snapshot.data
+                        .map<Widget>((item) => BookCard(
+                              author: item.author,
+                              name: item.name,
+                              isbn: item.isbn,
+                              // url: item.url,
+                            ))
+                        //TODO: разобраться с картинками, кидает 403
+                        .toList(),
+                  ),
+                )
+              : const Center(
+                  child: Text('Read at least 1 book to get recommendations'),
+                );
         } else if (snapshot.hasError) {
           childer = Center(
             child: Column(

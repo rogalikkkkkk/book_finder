@@ -6,15 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class Firestore {
-  static Future<List<Book>> getBooksCollection(String colName) async {
-    return (await FirebaseFirestore.instance.collection(colName).get())
-        .docs
-        .map((item) => Book.fromJSON(item.data()))
-        .toList();
-  }
-
   static Future<List<BookWRating>?> getUserRatings(String userId) async {
-    List<BookWRating>? booksWRatingsList;
+    List<BookWRating> booksWRatingsList = List.empty();
     var ratingsMap = (await FirebaseFirestore.instance
             .collection('ratings')
             .doc(userId)
@@ -52,8 +45,10 @@ class Firestore {
 
   static Future<List<Book>> loadSimList(String userId) async {
     var alreadyRead = await getUserRatings(userId);
-    if (alreadyRead == null) {
+    if (alreadyRead == null || alreadyRead.isEmpty) {
       return List.empty();
+
+      //TODO: добавить отображение отсутствия рекомендаций
     }
 
     alreadyRead.sort((a, b) {
@@ -86,7 +81,7 @@ class Firestore {
     for (var element in readedWRecomendedSorted) {
       recommendationsListDirty.add(element.book0);
       recommendationsListDirty.add(element.book1);
-      recommendationsListDirty.add(element.book0);
+      recommendationsListDirty.add(element.book2);
       recommendationsListDirty.add(element.book3);
       recommendationsListDirty.add(element.book4);
     }
@@ -124,4 +119,3 @@ class Firestore {
     });
   }
 }
-//zLzASy2SJjPL4onB7CX0kxs5XXj2

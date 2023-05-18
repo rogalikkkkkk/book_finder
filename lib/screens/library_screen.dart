@@ -13,7 +13,6 @@ class LibraryScreen extends StatefulWidget {
 }
 
 class _LibraryScreenState extends State<LibraryScreen> {
-
   final user = FirebaseAuth.instance.currentUser!.uid;
 
   Future<void> signOut() async {
@@ -56,6 +55,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
 class UserBooksCards extends StatelessWidget {
   final String user;
+
   const UserBooksCards({
     required this.user,
     super.key,
@@ -68,21 +68,23 @@ class UserBooksCards extends StatelessWidget {
       builder: (context, AsyncSnapshot snapshot) {
         Widget child;
         if (snapshot.hasData) {
-          child = SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: snapshot.data
-                  .map<Widget>((item) => BookCard(
-                        author: item.author,
-                        name: item.name,
-                        score: item.rating,
-                        isbn: item.isbn,
-                        // url: item.url,
-                      ))
-                  //TODO: разобраться с картинками, кидает 403
-                  .toList(),
-            ),
-          );
+          child = (snapshot.data.toString().replaceAll('[]', '').isNotEmpty)
+              ? SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: snapshot.data
+                        .map<Widget>((item) => BookCard(
+                              author: item.author,
+                              name: item.name,
+                              score: item.rating,
+                              isbn: item.isbn,
+                              // url: item.url,
+                            ))
+                        //TODO: разобраться с картинками, кидает 403
+                        .toList(),
+                  ),
+                )
+              : const Center(child: Text('No read books yet'));
         } else if (snapshot.hasError) {
           child = Center(
             child: Column(
