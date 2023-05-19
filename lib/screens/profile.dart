@@ -96,6 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               author: book.author,
                               name: book.name,
                               isbn: book.isbn,
+                              url: book.url,
                             ))
                         .toList(),
                   ),

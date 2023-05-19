@@ -59,6 +59,13 @@ class _BookCardState extends State<BookCard> {
                         child: Image.network(
                           (widget.url != null) ? widget.url! : netPicture,
                           fit: BoxFit.contain,
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return const Icon(
+                              Icons.image,
+                              size: 100,
+                            );
+                          },
                         ),
                       ),
                     ),

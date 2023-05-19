@@ -78,7 +78,7 @@ class UserBooksCards extends StatelessWidget {
                               name: item.name,
                               score: item.rating,
                               isbn: item.isbn,
-                              // url: item.url,
+                              url: item.url,
                             ))
                         //TODO: разобраться с картинками, кидает 403
                         .toList(),
