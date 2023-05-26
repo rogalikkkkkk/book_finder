@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class Firestore {
   static Future<List<BookWRating>?> getUserRatings(String userId) async {
-    List<BookWRating> booksWRatingsList = List.empty();
+    List<BookWRating> booksWRatingsList = [];
     var ratingsMap = (await FirebaseFirestore.instance
             .collection('ratings')
             .doc(userId)
@@ -15,22 +15,25 @@ class Firestore {
         .data();
     if (ratingsMap != null) {
       ratingsMap = ratingsMap['ratings'];
-      booksWRatingsList = (await FirebaseFirestore.instance
-              .collection('books')
-              .where('ISBN', whereIn: ratingsMap!.keys)
-              .get())
-          .docs
-          .map((book) {
-        final Book curBook = Book.fromJSON(book.data());
-        final rating = ratingsMap![curBook.isbn];
-        return BookWRating(
-          isbn: curBook.isbn,
-          author: curBook.author,
-          name: curBook.name,
-          url: curBook.url,
-          rating: rating,
-        );
-      }).toList();
+      for (var pair in ratingsMap!.entries) {
+        var bookWRating = (await FirebaseFirestore.instance
+            .collection('books')
+            .where('ISBN', isEqualTo: pair.key)
+            .get())
+            .docs
+            .map((book) {
+          final Book curBook = Book.fromJSON(book.data());
+          final rating = ratingsMap![curBook.isbn];
+          return BookWRating(
+            isbn: curBook.isbn,
+            author: curBook.author,
+            name: curBook.name,
+            url: curBook.url,
+            rating: rating,
+          );
+        }).toList();
+        booksWRatingsList.addAll(bookWRating);
+      }
     }
 
     return booksWRatingsList;
@@ -48,7 +51,6 @@ class Firestore {
     if (alreadyRead == null || alreadyRead.isEmpty) {
       return List.empty();
 
-      //TODO: добавить отображение отсутствия рекомендаций
     }
 
     alreadyRead.sort((a, b) {

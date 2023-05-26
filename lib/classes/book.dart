@@ -20,14 +20,6 @@ class Book {
           url: json['link']! as String,
         );
 
-  Map<String, Object?> toJson() {
-    return {
-      'ISBN': isbn,
-      'author': author,
-      'link': url,
-      'name': name,
-    };
-  }
 
   static Future<List<Book>> findInBooks(String pattern) async {
     return (await Firestore.getAllBooks())
